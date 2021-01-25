@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "prime"
+  "defaultProject": "prime",
+  "cli": {
+    "analytics": false
+  }
 }
