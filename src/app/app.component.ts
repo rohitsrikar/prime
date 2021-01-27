@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterContentInit, Component, DoCheck, OnChanges, OnInit } from '@angular/core';
 import {Car} from './car';
 import {CarService} from './carservice';
 import { LazyLoadEvent } from 'primeng/api';
@@ -6,28 +6,17 @@ import {MessageService} from 'primeng/api';
 import { Product } from './product';
 import { ProductService } from './productservice';
 import { SortEvent } from 'primeng/api';
-import { CarDetail} from './CarDetail'
+import * as _ from 'underscore';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   providers: [MessageService],
-  styles: [`
-        .loading-text {
-            display: block;
-            background-color: #f1f1f1;
-            min-height: 30px;
-            animation: pulse 1s infinite ease-in-out;
-            text-indent: -99999px;
-            overflow: hidden;
-            width:100px;
-            border-bottom-right-radius: 30px;
-            border-top-right-radius: 30px;
-        }
-    `]
+
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   products1: Product[];
 
   products2: Product[];
@@ -44,33 +33,45 @@ export class AppComponent {
   arr = [];
   res = [];
   student = [{"id":123,"name":"Test","value":{"pass": true, "verified": true}}];
+
+  displayModal: boolean = false;
   constructor(private carService: CarService, private productService: ProductService) {}
+
+  ngAfterContentInit(){
+    
+  }
   ngOnInit() {
     this.cols = [
         {field: 'vin', header: 'Vin'},
-        // {field: 'year', header: 'Year'},
         {field: 'brand', header: 'Brand'},
-        {field: 'color', header: 'Color'}
+        {field: 'color', header: 'Color'},
+        {field: 'year', header: 'Year'}
+        
+        
     ];
 
     this.cars = Array.from({length: 10000}).map(() => this.carService.generateCar());
     this.virtualCars = Array.from({length: 10000});
-
-    this.productService.getProductsSmall().then(data => this.products1 = data);
-    this.productService.getProductsSmall().then(data => this.products2 = data);
-    this.productService.getProductsSmall().then(data => this.products3 = data);
 }
 
 
 DisplayCard(rowData){
   this.display = true;
-  this.recordData = JSON.parse(rowData);
-  console.log("ROwData",this.recordData);
+  this.recordData =rowData;
+  console.log(typeof(this.recordData));
+  this.displayModal = true;
+  console.log("RowData",this.recordData);
+  
 //   this.res = _.values(this.recordData)
   for (var x in this.recordData){
-     this.res = this.recordData[x]
+     this.res.push(this.recordData[x]);
  }
- console.log(this.res);
+ if(this.res.length > 4){
+    this.res.splice(0, 4);
+ }
+ 
+
+//  console.log(this.res);
 //   for(let result of this.recordData){
 //       this.arr.push(result);
 //   }

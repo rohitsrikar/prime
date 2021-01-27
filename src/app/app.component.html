@@ -1,18 +1,18 @@
-<div class="card">
+<div class="card" style="width: 50%;">
   
-  <p-table [columns]="cols" [value]="virtualCars" [scrollable]="true" [rows]="100" scrollHeight="250px" 
-      [virtualScroll]="true" [virtualRowHeight]="34" [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" styleClass="p-datatable-gridlines">
+  <p-table  [columns]="cols" [value]="virtualCars" [scrollable]="true" [rows]="100" scrollHeight="450px" 
+      [virtualScroll]="true" [virtualRowHeight]="30" [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" styleClass="p-datatable-gridlines table-border">
       <ng-template pTemplate="header" let-columns >
-          <tr>
-              <th *ngFor="let col of columns" style="background-color: #82D1EE;">
+          <tr >
+              <th *ngFor="let col of columns"  style="background-color: #82D1EE;">
                   {{col.header}}        
               </th>
           </tr>
       </ng-template>
      
       <ng-template pTemplate="body" let-rowData let-columns="columns">
-          <tr>
-              <td *ngFor="let col of columns" style="cursor: pointer;">
+          <tr class="hover-effect">
+              <td *ngFor="let col of columns"  style="cursor: pointer;">
                 <div (click)="DisplayCard(rowData)">
                   {{rowData[col.field]}}
                 </div>
@@ -29,10 +29,21 @@
       </ng-template>
   </p-table>
 </div>
-<div *ngFor="let rec of student">
-  <h2>Id: {{rec.id}}</h2> <h4>Name: {{rec.name}} Pass: {{rec.value.pass}} Verified: {{rec.value.verified}}</h4>
+
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+[draggable]="false" [resizable]="false">
+  <div *ngFor = "let col of cols; let in = index">
+    {{col.header}} -{{res[in]}}  
+   <br>
 </div>
-<div *ngFor = "let i of res">
-  vdsk
-</div>
+</p-dialog>
+  
+
+  
+  
+   
+    
+  
+
+
   
